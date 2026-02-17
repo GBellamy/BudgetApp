@@ -16,6 +16,9 @@ export const Colors = {
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
+    card: '#F8F9FA',
+    border: '#E0E0E0',
+    placeholder: '#9BA1A6',
   },
   dark: {
     text: '#ECEDEE',
@@ -24,7 +27,23 @@ export const Colors = {
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
+    card: '#1E2426',
+    border: '#2D3436',
+    placeholder: '#636E72',
   },
+};
+
+export const BudgetColors = {
+  income: '#4CAF50',
+  expense: '#F44336',
+  incomeLight: '#E8F5E9',
+  expenseLight: '#FFEBEE',
+  neutral: '#9E9E9E',
+  chartPalette: [
+    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+    '#9966FF', '#FF9F40', '#4CAF50', '#AB47BC',
+    '#42A5F5', '#66BB6A', '#8BC34A', '#26A69A',
+  ],
 };
 
 export const Fonts = Platform.select({
