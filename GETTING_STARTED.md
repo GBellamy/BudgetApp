@@ -1,6 +1,7 @@
 # BudgetApp - Guide de démarrage
 
 ## Architecture
+
 - **Frontend** : React Native / Expo (ce dossier)
 - **Backend** : Node.js + Express + PostgreSQL (`backend/`)
 - **Hébergement** : Backend sur Railway (cloud), accessible depuis n'importe quelle connexion internet
@@ -10,14 +11,6 @@
 ## 1. Déploiement du backend sur Railway
 
 ### Étape 1 : Pousser le code sur GitHub
-
-```bash
-cd /home/gbellamy/Documents/Projets/BudgetApp
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/VOTRE_USERNAME/budgetapp.git
-git push -u origin main
-```
 
 ### Étape 2 : Créer le projet Railway
 
@@ -29,6 +22,7 @@ git push -u origin main
 ### Étape 3 : Ajouter PostgreSQL
 
 Dans votre projet Railway :
+
 1. Cliquez **+ New** → **Database** → **Add PostgreSQL**
 2. Railway crée la base et injecte automatiquement `DATABASE_URL` dans votre service
 
@@ -36,16 +30,16 @@ Dans votre projet Railway :
 
 Dans votre service backend Railway → onglet **Variables**, ajoutez :
 
-| Variable | Valeur |
-|----------|--------|
-| `NODE_ENV` | `production` |
-| `JWT_SECRET` | une chaîne aléatoire longue (ex: `openssl rand -hex 32` dans le terminal) |
-| `USER1_USERNAME` | votre prénom (minuscules) |
-| `USER1_PASSWORD` | votre mot de passe |
-| `USER1_NAME` | Votre Prénom |
-| `USER2_USERNAME` | prénom compagne |
-| `USER2_PASSWORD` | mot de passe compagne |
-| `USER2_NAME` | Prénom Compagne |
+| Variable         | Valeur                                                                    |
+| ---------------- | ------------------------------------------------------------------------- |
+| `NODE_ENV`       | `production`                                                              |
+| `JWT_SECRET`     | une chaîne aléatoire longue (ex: `openssl rand -hex 32` dans le terminal) |
+| `USER1_USERNAME` | votre prénom (minuscules)                                                 |
+| `USER1_PASSWORD` | votre mot de passe                                                        |
+| `USER1_NAME`     | Votre Prénom                                                              |
+| `USER2_USERNAME` | prénom compagne                                                           |
+| `USER2_PASSWORD` | mot de passe compagne                                                     |
+| `USER2_NAME`     | Prénom Compagne                                                           |
 
 > `DATABASE_URL` et `PORT` sont injectés automatiquement par Railway — ne les ajoutez pas manuellement.
 
@@ -54,6 +48,7 @@ Dans votre service backend Railway → onglet **Variables**, ajoutez :
 Railway déclenche automatiquement un build à chaque `git push`. Pour forcer le premier déploiement, cliquez **Deploy** dans l'interface.
 
 Suivez les logs dans l'onglet **Deployments**. Une fois déployé :
+
 ```
 BudgetApp backend running on http://0.0.0.0:XXXX
 ```
@@ -103,9 +98,11 @@ eas build --platform android --profile preview
 ## 3. Configurer l'URL du serveur dans l'app
 
 Dans l'app → onglet **Paramètres** → **URL du serveur**, entrez l'URL Railway :
+
 ```
 https://budgetapp-production-xxxx.up.railway.app
 ```
+
 Sans barre oblique finale.
 
 ---
@@ -113,6 +110,7 @@ Sans barre oblique finale.
 ## 4. Déploiements suivants
 
 Chaque `git push` déclenche un redéploiement automatique :
+
 ```bash
 git add .
 git commit -m "ma modification"
@@ -124,9 +122,9 @@ git push
 ## Comptes par défaut
 
 | Utilisateur | Mot de passe |
-|-------------|-------------|
-| user1       | password123 |
-| user2       | password123 |
+| ----------- | ------------ |
+| user1       | password123  |
+| user2       | password123  |
 
 Changez ces valeurs dans les variables d'environnement Railway avant de lancer le seed.
 
@@ -134,10 +132,10 @@ Changez ces valeurs dans les variables d'environnement Railway avant de lancer l
 
 ## Résolution de problèmes
 
-| Problème | Solution |
-|----------|----------|
-| Build échoue | Vérifiez les logs Railway, souvent une erreur TypeScript |
-| `DATABASE_URL` non définie | Vérifiez que PostgreSQL est bien lié au service dans Railway |
-| Seed échoue | Vérifiez que le service a démarré au moins une fois (migrations exécutées) avant le seed |
-| App ne se connecte pas | Vérifiez l'URL dans Paramètres (doit être `https://`, pas `http://`) |
-| "Network request failed" | Vérifiez que l'URL Railway est correcte et sans barre oblique finale |
+| Problème                   | Solution                                                                                 |
+| -------------------------- | ---------------------------------------------------------------------------------------- |
+| Build échoue               | Vérifiez les logs Railway, souvent une erreur TypeScript                                 |
+| `DATABASE_URL` non définie | Vérifiez que PostgreSQL est bien lié au service dans Railway                             |
+| Seed échoue                | Vérifiez que le service a démarré au moins une fois (migrations exécutées) avant le seed |
+| App ne se connecte pas     | Vérifiez l'URL dans Paramètres (doit être `https://`, pas `http://`)                     |
+| "Network request failed"   | Vérifiez que l'URL Railway est correcte et sans barre oblique finale                     |
