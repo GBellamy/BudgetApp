@@ -12,7 +12,6 @@
 ### Étape 1 : Pousser le code sur GitHub
 
 ```bash
-cd /home/gbellamy/Documents/Projets/BudgetApp
 git add .
 git commit -m "Initial commit"
 git remote add origin https://github.com/VOTRE_USERNAME/budgetapp.git
