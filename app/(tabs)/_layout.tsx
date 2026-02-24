@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { HapticTab } from '@/components/haptic-tab';
@@ -38,8 +39,19 @@ export default function TabLayout() {
       <Tabs.Screen
         name="add"
         options={{
-          title: 'Ajouter',
-          tabBarIcon: ({ color }) => <MaterialIcons name="add-circle" size={28} color={color} />,
+          title: '',
+          tabBarIcon: () => (
+            <View style={[styles.addBtn, { backgroundColor: colors.tint }]}>
+              <MaterialIcons name="add" size={30} color="#fff" />
+            </View>
+          ),
+          tabBarButton: (props) => (
+            <TouchableOpacity
+              {...props}
+              style={styles.addTabBtn}
+              activeOpacity={0.8}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -59,3 +71,24 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  addTabBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addBtn: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+});

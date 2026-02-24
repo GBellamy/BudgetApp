@@ -1,6 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, useColorScheme, RefreshControl } from 'react-native';
 import { router } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
 import { format, startOfMonth, endOfMonth } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { useSummary, useRecentActivity } from '@/hooks/use-analytics';
@@ -64,18 +63,12 @@ export default function DashboardScreen() {
         <EmptyState icon="💰" title="Aucune transaction" subtitle="Commencez à suivre votre budget" />
       )}
 
-      <TouchableOpacity
-        style={[styles.fab, { backgroundColor: colors.tint }]}
-        onPress={() => router.push('/(tabs)/add' as any)}
-      >
-        <MaterialIcons name="add" size={28} color="#fff" />
-      </TouchableOpacity>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 16, paddingBottom: 80 },
+  container: { padding: 16, paddingBottom: 32 },
   welcome: { fontSize: 14, marginBottom: 2 },
   period: { fontSize: 22, fontWeight: '700', marginBottom: 16, textTransform: 'capitalize' },
   sectionHeader: {
@@ -86,19 +79,4 @@ const styles = StyleSheet.create({
   },
   sectionTitle: { fontSize: 17, fontWeight: '700' },
   seeAll: { fontSize: 14, fontWeight: '500' },
-  fab: {
-    position: 'absolute',
-    bottom: 24,
-    right: 16,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-  },
 });
