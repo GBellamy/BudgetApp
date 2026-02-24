@@ -24,6 +24,7 @@ export interface Transaction {
   category_name?: string;
   category_icon?: string;
   category_color?: string;
+  user_display_name?: string;
 }
 
 export interface TransactionFormData {

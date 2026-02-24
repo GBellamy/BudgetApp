@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, useColorScheme } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/theme';
-import { CategoryAnalytics } from '@/types/api';
+import { CategoryAnalytics, CategoryUserTotal } from '@/types/api';
 
 interface CategoryBreakdownProps {
   data: CategoryAnalytics[];
@@ -31,6 +31,18 @@ export function CategoryBreakdown({ data, total }: CategoryBreakdownProps) {
                 <View style={[styles.barFill, { width: `${pct}%` as any, backgroundColor: item.color }]} />
               </View>
               <Text style={[styles.pct, { color: colors.icon }]}>{pct.toFixed(1)}%</Text>
+              {item.user_totals && item.user_totals.length > 1 ? (
+                <View style={styles.userTotals}>
+                  {item.user_totals.map((u: CategoryUserTotal) => (
+                    <View key={u.user_id} style={styles.userRow}>
+                      <Text style={[styles.userName, { color: colors.icon }]}>{u.display_name}</Text>
+                      <Text style={[styles.userAmount, { color: colors.icon }]}>
+                        {u.total.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+              ) : null}
             </View>
           </View>
         );
@@ -50,4 +62,8 @@ const styles = StyleSheet.create({
   barBg: { height: 6, borderRadius: 3, overflow: 'hidden', marginBottom: 2 },
   barFill: { height: '100%', borderRadius: 3 },
   pct: { fontSize: 11 },
+  userTotals: { marginTop: 4, gap: 2 },
+  userRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  userName: { fontSize: 11 },
+  userAmount: { fontSize: 11 },
 });

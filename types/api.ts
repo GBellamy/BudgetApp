@@ -15,6 +15,12 @@ export interface Summary {
   balance: number;
 }
 
+export interface CategoryUserTotal {
+  user_id: number;
+  display_name: string;
+  total: number;
+}
+
 export interface CategoryAnalytics {
   id: number;
   name: string;
@@ -22,6 +28,7 @@ export interface CategoryAnalytics {
   color: string;
   total: number;
   count: number;
+  user_totals?: CategoryUserTotal[];
 }
 
 export interface MonthlyAnalytics {

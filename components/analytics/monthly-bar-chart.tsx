@@ -7,6 +7,7 @@ import { fr } from 'date-fns/locale';
 
 interface MonthlyBarChartProps {
   data: MonthlyAnalytics[];
+  highlightMonth?: string; // 'YYYY-MM' — reserved for future use
 }
 
 const WIDTH = Dimensions.get('window').width - 48;

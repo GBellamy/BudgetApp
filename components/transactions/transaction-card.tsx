@@ -37,9 +37,18 @@ export function TransactionCard({ transaction }: TransactionCardProps) {
         />
       </View>
       <View style={styles.middle}>
-        <Text style={[styles.categoryName, { color: colors.text }]}>
-          {transaction.category_name || 'Sans catégorie'}
-        </Text>
+        <View style={styles.titleRow}>
+          <Text style={[styles.categoryName, { color: colors.text }]}>
+            {transaction.category_name || 'Sans catégorie'}
+          </Text>
+          {transaction.user_display_name ? (
+            <View style={[styles.userBadge, { backgroundColor: colors.tint + '20' }]}>
+              <Text style={[styles.userBadgeText, { color: colors.tint }]}>
+                {transaction.user_display_name}
+              </Text>
+            </View>
+          ) : null}
+        </View>
         {transaction.description ? (
           <Text style={[styles.description, { color: colors.icon }]} numberOfLines={1}>
             {transaction.description}
@@ -66,7 +75,10 @@ const styles = StyleSheet.create({
   },
   iconBadge: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
   middle: { flex: 1 },
-  categoryName: { fontSize: 15, fontWeight: '600', marginBottom: 2 },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2, flexWrap: 'wrap' },
+  categoryName: { fontSize: 15, fontWeight: '600' },
+  userBadge: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 8 },
+  userBadgeText: { fontSize: 11, fontWeight: '600' },
   description: { fontSize: 13, marginBottom: 2 },
   date: { fontSize: 12 },
   amount: { fontSize: 15, fontWeight: '700' },

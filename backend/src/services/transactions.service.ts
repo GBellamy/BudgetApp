@@ -13,6 +13,7 @@ export interface Transaction {
   category_name?: string;
   category_icon?: string;
   category_color?: string;
+  user_display_name?: string;
 }
 
 export interface TransactionFilters {
@@ -26,50 +27,53 @@ export interface TransactionFilters {
 
 const SELECT_WITH_CATEGORY = `
   SELECT t.*, t.date::text as date,
-         c.name as category_name, c.icon as category_icon, c.color as category_color
+         c.name as category_name, c.icon as category_icon, c.color as category_color,
+         u.display_name as user_display_name
   FROM transactions t
   LEFT JOIN categories c ON t.category_id = c.id
+  LEFT JOIN users u ON t.user_id = u.id
 `;
 
+// Show all household transactions (no user_id filter on reads)
 export async function getTransactions(
-  userId: number,
+  _userId: number,
   filters: TransactionFilters
 ): Promise<{ data: Transaction[]; total: number; page: number; limit: number }> {
-  const pool  = getPool();
-  const page  = filters.page  ?? 1;
-  const limit = filters.limit ?? 20;
+  const pool   = getPool();
+  const page   = filters.page  ?? 1;
+  const limit  = filters.limit ?? 20;
   const offset = (page - 1) * limit;
 
   let idx = 1;
-  const conditions: string[] = [`t.user_id = $${idx++}`];
-  const params: unknown[]    = [userId];
+  const conditions: string[] = [];
+  const params: unknown[]    = [];
 
   if (filters.type)        { conditions.push(`t.type = $${idx++}`);        params.push(filters.type); }
   if (filters.category_id) { conditions.push(`t.category_id = $${idx++}`); params.push(filters.category_id); }
   if (filters.date_from)   { conditions.push(`t.date >= $${idx++}`);       params.push(filters.date_from); }
   if (filters.date_to)     { conditions.push(`t.date <= $${idx++}`);       params.push(filters.date_to); }
 
-  const where = conditions.join(' AND ');
+  const where = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
 
   const { rows: countRows } = await pool.query<{ count: string }>(
-    `SELECT COUNT(*) as count FROM transactions t WHERE ${where}`,
+    `SELECT COUNT(*) as count FROM transactions t ${where}`,
     params
   );
   const total = parseInt(countRows[0].count, 10);
 
   const { rows: data } = await pool.query<Transaction>(
-    `${SELECT_WITH_CATEGORY} WHERE ${where} ORDER BY t.date DESC, t.created_at DESC LIMIT $${idx++} OFFSET $${idx}`,
+    `${SELECT_WITH_CATEGORY} ${where} ORDER BY t.date DESC, t.created_at DESC LIMIT $${idx++} OFFSET $${idx}`,
     [...params, limit, offset]
   );
 
   return { data, total, page, limit };
 }
 
-export async function getTransactionById(id: number, userId: number): Promise<Transaction | null> {
+export async function getTransactionById(id: number, _userId: number): Promise<Transaction | null> {
   const pool = getPool();
   const { rows } = await pool.query<Transaction>(
-    `${SELECT_WITH_CATEGORY} WHERE t.id = $1 AND t.user_id = $2`,
-    [id, userId]
+    `${SELECT_WITH_CATEGORY} WHERE t.id = $1`,
+    [id]
   );
   return rows[0] ?? null;
 }
